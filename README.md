@@ -1,22 +1,13 @@
-https://tinyurl.com/ilmarcatoreTM
-
-// Prebake script
+// UUH! IlMarcatoreTM
+ https://tinyurl.com/UuuhilmarcatoreTM
 //
-// This is code that is loaded before your pattern is run.
-// You can use it to define custom functions to use in any pattern.
-// 
-// This is an initial example script. You can edit it to add 
-// your own funtions.
-//
-// To use a script shared by some other user you can use
-// the import-button or paste the script in this editor.
 
 const ratchet = register('ratchet', (pat) => pat.sometimes(ply(2)))
 
 samples({
   'myvox':[
     '0.wav', '1.wav', '2.wav', '3.wav', '4.wav', 
-    '5.wav', '6.wav', '7.wav', '8.wav', '9.wav'
+    '5.wav', '6.wav', '7.wav', '8.wav', '9.wav', '10.wav', '11.wav', '12.wav'
   ]
 }, 'https://cdn.jsdelivr.net/gh/italianloverboy/uuh@main/samples/');
 
@@ -55,7 +46,7 @@ stack(
     .gain("<0 0 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0>"),
 
   // 5. VOCE PRINCIPALE
-  s("myvox").n(choose(0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 8, 8, 9))
+  s("myvox").n(choose(0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 8, 8, 9, 10, 11, 12))
     .speed(choose(0.6, 0.5, 0.6, 0.5, 0.6, 0.8, 1.3, 1.6))
     .crush(choose(5.2,9,8,4.5,8,9,8)) 
     .pan(rand).gain(0.4), 
@@ -68,7 +59,7 @@ stack(
 
   // 7. BRASS - 
   note("<~ ~ d4> <~ f4 ~> <~ d4 ~> <~ g4 ~ c4>") 
-    .s(choose("superbrass", "saw", "fm", "pulse").slow(16))  
+    .s(choose("superbrass", "saw", "fm", "pulse").slow(16))
     .gain("<0 0 0 0 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0>"),
 
   // 8.   CHORD STAB -  
