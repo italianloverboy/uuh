@@ -5,19 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UUH IL MARCATORE TM</title>
     <style>
-        body, html { 
-            margin: 0; padding: 0; height: 100%; width: 100%; 
-            background: #000; overflow: hidden; 
-            display: flex; flex-direction: column;
-        }
-        iframe { 
-            flex: 1; width: 100%; border: none; 
-        }
-        .header {
-            background: #000; color: #ff3e00; padding: 15px; text-align: center;
-            border-bottom: 1px solid #111; font-family: monospace; 
-            font-weight: bold; letter-spacing: 3px; font-size: 1.2rem;
-        }
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; background: #000; overflow: hidden; display: flex; flex-direction: column; }
+        iframe { flex: 1; width: 100%; border: none; }
+        .header { background: #000; color: #ff3e00; padding: 15px; text-align: center; border-bottom: 1px solid #111; font-family: monospace; font-weight: bold; letter-spacing: 3px; font-size: 1.2rem; }
     </style>
 </head>
 <body>
@@ -26,11 +16,7 @@
     <iframe id="strudel-frame" allow="autoplay; audio"></iframe>
 
     <script>
-        // IL TUO CODICE IDENTICO AL 100%
-        const mySongCode = ` // UUH! IlMarcatoreTM 20:13
-// Modificato: wMod con livello 0 e mappatura estesa ai parametri di sintesi
-
-const ratchet = register('ratchet', (pat) => pat.sometimes(ply(2)))
+        const mySongCode = `const ratchet = register('ratchet', (pat) => pat.sometimes(ply(2)))
 
 samples({
   'myvox':[
@@ -55,50 +41,39 @@ const modStrong = rand.range(0.2,  2);
  
 const modActive = "<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1>";
 
-// Aggiunto lo 0 al choose per avere il "livello 0" di influenza
 const wMod = (base) => choose(0, modWeak, modMid, modStrong).segment(1).slow(10).mul(modActive).add(base);
 
-// =====================================================================
-
 stack(
-  // 1. Kick:  
   s("[bd*4, ~[~ mt] ~ [~ lt]]").bank("RolandTR909")
-    .lpf(wMod(600)).lpq(wMod(10)) // Aggiunta variazione sintesi
+    .lpf(wMod(600)).lpq(wMod(10))
     .room(0.3)
     .gain("<0 0 0 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1>"), 
   
-  // 2. HI-HATS:  
   s("[~ oh]*4").bank("RolandTR909").decay(wMod(0.1))
     .gain("<0 0 0.3 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0 0 0 0 0 0 0.3 0.6 0.6 0.6 0.4 0.6 0.4 0.6 0.4 0.6 0.4 0.6 0 0 0 0>"),
 
-  // --- CLAP GESU
   stack(
     s("~ cp ~ cp").bank("RolandTR909").room(wMod(0.3)),  
     s("[~ rd]*4").bank("RolandTR909").decay(wMod(0.3))   
   ).gain("<0.25 0 0 0 0 0 0 0 0 0 0 0 0.25 0.35 0.25 0.35>"),
   
-  // 3. BASS:
   note(bPatt).s("saw").lpq(wMod(45)).decay(wMod(0.32)).sustain(wMod(2))  
     .gain("<0.7 0 0.7 0 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0 0.7 0 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0 0 0 0>"),
   
-  // 4. SUB-SYNTH
-    note(sPatt).s("saw").lpf(wMod(220)).lpq(wMod(10)).adsr(0.4, 1.3, wMod(0.8), 1.3) 
+  note(sPatt).s("saw").lpf(wMod(220)).lpq(wMod(10)).adsr(0.4, 1.3, wMod(0.8), 1.3) 
     .gain("<0.8 0 0 0.8 0 0 0 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0>"),
 
-  // 5. VOCE PRINCIPALE
   s("myvox").n(choose(0, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,0, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
     .speed(choose(0.6, 0.55, 0.65, 0.5, 0.75, 0.8, 1.3, 1.4))
     .crush(choose(5.5, 9, 8, 6, 8, 9, 8, 5)) 
     .pan(rand).gain(0.4), 
 
-  // 6. CONTROCORO
   s("myvox").n(choose(0, 10, 11, 10, 11, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10, 11, 10, 11, 10, 11, 1, 2, 3, 4, 5, 6, 7, 8, 9 ))
-    .struct("~ ~ ~ x").speed(choose(0.55, 0.6, 0.65, 0.8, 1.3))     .crush(choose(5.5, 9, 8, 6, 8, 9, 8, 5)) 
-
+    .struct("~ ~ ~ x").speed(choose(0.55, 0.6, 0.65, 0.8, 1.3))
+    .crush(choose(5.5, 9, 8, 6, 8, 9, 8, 5)) 
     .pan(sine.slow(4)) 
     .gain("<0.25 0 0 0 0.45 0.35 0.45 0.35 0.55 0.25 0.45 0.35 0.45 0.35 0.45 0>"),
 
- // 7. color
   note(\`
     <
       [[~ g4 ~ d4] [~ f4 ~ c4][~ g4 ~ bb3] [~ c4 d4 ~]]!16 
@@ -115,41 +90,37 @@ stack(
       [[g3 g4 ~ f4] [~ d4 c4 bb3][g3 ~ d4 ~] [f4 g4 ~ ~]]!16
     >
   \`)
- .s(choose("gm_sitar", "saw", "fm", "pulse", "gm_telephone", "casio", "clash2", "cowbell", "siren", "tubularbells2", "gm_pan_flute").segment(1).slow(16))
- .lpf(wMod(3000)).lpq(wMod(10)) // Aggiunta variazione sintesi
- .gain("<0 0 0 0 0.20 0.20 0 0 0.20 0.20 0.20 0.20 0.20 0.20 0.25 0.25>"),
+  .s(choose("gm_sitar", "saw", "fm", "pulse", "gm_telephone", "casio", "clash2", "cowbell", "siren", "tubularbells2", "gm_pan_flute").segment(1).slow(16))
+  .lpf(wMod(3000)).lpq(wMod(10))
+  .gain("<0 0 0 0 0.20 0.20 0 0 0.20 0.20 0.20 0.20 0.20 0.20 0.25 0.25>"),
   
-// 8. CHORD STAB
-note(\`
+  note(\`
     <
     [[g3m9 ~ ~ g3m9] [~ bb3maj7 ~ ~] [c4maj7 ~ ~ f3m] [~ ~ d3m7 ~]]!16
     [[bb3maj7 ~ ~ ~] [~ c4m7 ~ ~] [eb4maj7 ~ ~ ~] [~ ~ ~ d4sus4]]!16
     [[f37 ~ ~ ~] [~ g3m9 ~ ~] [~ ~ c4m7 ~] [~ d37 ~ ~]]!16
     [[eb3maj7 ~ g3m7 ~] [~ f37 ~ ~] [bb3maj7 ~ ~ ~] [~ ~ ~ ~]]!16
     >
-\`)
-.s(choose("saw", "square", "triangle", "juno", "fm", "pulse", "casio").segment(1).slow(8))
-.lpf(sine.range(400, 2800).fast(0.5).add(wMod(0))).lpq(wMod(15)) // wMod aggiunto a LPF e LPQ
-.delay(wMod(0.6)).delayt(0.375).delayfb(wMod(0.4)).room(wMod(0.4))
-.gain("<0 0 0 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35>"),
+  \`)
+  .s(choose("saw", "square", "triangle", "juno", "fm", "pulse", "casio").segment(1).slow(8))
+  .lpf(sine.range(400, 2800).fast(0.5).add(wMod(0))).lpq(wMod(15))
+  .delay(wMod(0.6)).delayt(0.375).delayfb(wMod(0.4)).room(wMod(0.4))
+  .gain("<0 0 0 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35>"),
 
-// 9. EARWORM
-note(hookPatt)
-  .s(choose("saw", "square", "fm", "juno", "supersaw", "triangle").segment(1).slow(8)) 
-  .sometimes(x => x.ply("<2 4 3>")) 
-  .lpf(sine.range(100, 4500).slow(4).add(wMod(0))) // wMod aggiunto alla frequenza
-  .lpq(rand.range(10, 40).add(wMod(0))) 
-  .crush(choose(0, 4, 8).segment(1).slow(4).add(wMod(0))) 
-  .pan(sine.slow(10)) 
-  .delay(0.4).delayt(0.65).delayfb(wMod(0.5))
-  .room(0.4)
-  .gain("<0 0 0.55 0 0 0.55 0 0 0.55 0 0 0 0.55 0.55 0.55 0>")
+  note(hookPatt)
+    .s(choose("saw", "square", "fm", "juno", "supersaw", "triangle").segment(1).slow(8)) 
+    .sometimes(x => x.ply("<2 4 3>")) 
+    .lpf(sine.range(100, 4500).slow(4).add(wMod(0)))
+    .lpq(rand.range(10, 40).add(wMod(0))) 
+    .crush(choose(0, 4, 8).segment(1).slow(4).add(wMod(0))) 
+    .pan(sine.slow(10)) 
+    .delay(0.4).delayt(0.65).delayfb(wMod(0.5))
+    .room(0.4)
+    .gain("<0 0 0.55 0 0 0.55 0 0 0.55 0 0 0 0.55 0.55 0.55 0>")
 )`;
 
         function loadSong() {
-            // Encode code for Strudel URL
             const b64 = btoa(unescape(encodeURIComponent(mySongCode)));
-            // ?play=1 starts audio, ?hide=1 hides the UI
             document.getElementById('strudel-frame').src = 'https://strudel.cc/?play=1&hide=1#' + b64;
         }
 
