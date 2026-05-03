@@ -1,7 +1,5 @@
-
-// UUH! IlMarcatoreTM 20:13
-//
-//
+// UUH! IlMarcatoreTM 20:33
+// Modificato: wMod con livello 0 e mappatura estesa ai parametri di sintesi
 
 const ratchet = register('ratchet', (pat) => pat.sometimes(ply(2)))
 
@@ -22,28 +20,25 @@ const sPatt = "<[g3[~ c3] ~ e3[c3 d3] e3 ~ g3][bb2[~ f3] ~ d3[eb3 f3] d3 ~ f2][g
 const hookPatt = "<~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~[~ c4 d4 bb3 ~ e3 g3 e3][~ bb3 c4 d4 f4 ~ d4 c4][g3 f3 g3 bb3 ~ c4 d4 bb3] ~>";
 const chordRhythm = "<[~ x ~ ~] [~ ~ x ~][~ x ~ x][~ ~ ~ x]>";
 
- 
-
- 
-const modWeak   = rand.range(0.01, 0.1);  
-const modMid    = rand.range(0.1,  0.7);  
-const modStrong = rand.range(0.7,  1.5);   
+const modWeak   = rand.range(0.01, 0.09);  
+const modMid    = rand.range(0.1,  0.19);  
+const modStrong = rand.range(0.2,  2);   
  
 const modActive = "<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1>";
 
- 
-const wMod = (base) => choose(modWeak, modMid, modStrong).segment(1).slow(10).mul(modActive).add(base);
+// Aggiunto lo 0 al choose per avere il "livello 0" di influenza
+const wMod = (base) => choose(0, modWeak, modMid, modStrong).segment(1).slow(10).mul(modActive).add(base);
 
 // =====================================================================
 
 stack(
   // 1. Kick:  
-  
-  s("[bd*4, ~[~ mt] ~ [~ lt]]").bank("RolandTR909").room(wMod(0.2))
+  s("[bd*4, ~[~ mt] ~ [~ lt]]").bank("RolandTR909")
+    .lpf(wMod(600)).lpq(wMod(10)) // Aggiunta variazione sintesi
+    .room(0.3)
     .gain("<0 0 0 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1>"), 
   
   // 2. HI-HATS:  
-  
   s("[~ oh]*4").bank("RolandTR909").decay(wMod(0.1))
     .gain("<0 0 0.3 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0 0 0 0 0 0 0.3 0.6 0.6 0.6 0.4 0.6 0.4 0.6 0.4 0.6 0.4 0.6 0 0 0 0>"),
 
@@ -54,11 +49,11 @@ stack(
   ).gain("<0.25 0 0 0 0 0 0 0 0 0 0 0 0.25 0.35 0.25 0.35>"),
   
   // 3. BASS:
-  note(bPatt).s("saw").lpq(45).decay(wMod(0.32)).sustain(2)  
+  note(bPatt).s("saw").lpq(wMod(45)).decay(wMod(0.32)).sustain(wMod(2))  
     .gain("<0.7 0 0.7 0 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0 0.7 0 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0 0 0 0>"),
   
   // 4. SUB-SYNTH
-    note(sPatt).s("saw").lpf(220).lpq(10).adsr(0.4, 1.3, wMod(0.8), 1.3) 
+    note(sPatt).s("saw").lpf(wMod(220)).lpq(wMod(10)).adsr(0.4, 1.3, wMod(0.8), 1.3) 
     .gain("<0.8 0 0 0.8 0 0 0 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0.8 0>"),
 
   // 5. VOCE PRINCIPALE
@@ -69,7 +64,8 @@ stack(
 
   // 6. CONTROCORO
   s("myvox").n(choose(0, 10, 11, 10, 11, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10, 11, 10, 11, 10, 11, 1, 2, 3, 4, 5, 6, 7, 8, 9 ))
-    .struct("~ ~ ~ x").speed(choose(0.55, 0.6, 0.65, 0.8, 1.3)) 
+    .struct("~ ~ ~ x").speed(choose(0.55, 0.6, 0.65, 0.8, 1.3))     .crush(choose(5.5, 9, 8, 6, 8, 9, 8, 5)) 
+
     .pan(sine.slow(4)) 
     .gain("<0.25 0 0 0 0.45 0.35 0.45 0.35 0.55 0.25 0.45 0.35 0.45 0.35 0.45 0>"),
 
@@ -91,9 +87,10 @@ stack(
     >
   `)
  .s(choose("gm_sitar", "saw", "fm", "pulse", "gm_telephone", "casio", "clash2", "cowbell", "siren", "tubularbells2", "gm_pan_flute").segment(1).slow(16))
-.gain("<0 0 0 0 0.20 0.20 0 0 0.20 0.20 0.20 0.20 0.20 0.20 0.25 0.25>"),
+ .lpf(wMod(3000)).lpq(wMod(10)) // Aggiunta variazione sintesi
+ .gain("<0 0 0 0 0.20 0.20 0 0 0.20 0.20 0.20 0.20 0.20 0.20 0.25 0.25>"),
   
-// 8. CHORD STAB (Complesso, varia ogni 16 cicli, strumento fisso ogni 8)
+// 8. CHORD STAB
 note(`
     <
     [[g3m9 ~ ~ g3m9] [~ bb3maj7 ~ ~] [c4maj7 ~ ~ f3m] [~ ~ d3m7 ~]]!16
@@ -103,20 +100,20 @@ note(`
     >
 `)
 .s(choose("saw", "square", "triangle", "juno", "fm", "pulse", "casio").segment(1).slow(8))
-.lpf(sine.range(400, 2800).fast(0.5)).lpq(15)
+.lpf(sine.range(400, 2800).fast(0.5).add(wMod(0))).lpq(wMod(15)) // wMod aggiunto a LPF e LPQ
 .delay(wMod(0.6)).delayt(0.375).delayfb(wMod(0.4)).room(wMod(0.4))
 .gain("<0 0 0 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35>"),
 
-// 9. EARWORM (Potenziato: più range, effetti dinamici, strumento fisso ogni 8)
+// 9. EARWORM
 note(hookPatt)
   .s(choose("saw", "square", "fm", "juno", "supersaw", "triangle").segment(1).slow(8)) 
-  .sometimes(x => x.ply("<2 4 3>")) // Variazione ritmica casuale
-  .lpf(sine.range(100, 4500).slow(4)) // Range filtro molto più ampio
-  .lpq(rand.range(10, 40)) // Risonanza variabile
-  .crush(choose(0, 4, 8).segment(1).slow(4)) // Grana bitcrush che varia
-  .pan(sine.slow(10)) // Movimento stereo lento
+  .sometimes(x => x.ply("<2 4 3>")) 
+  .lpf(sine.range(100, 4500).slow(4).add(wMod(0))) // wMod aggiunto alla frequenza
+  .lpq(rand.range(10, 40).add(wMod(0))) 
+  .crush(choose(0, 4, 8).segment(1).slow(4).add(wMod(0))) 
+  .pan(sine.slow(10)) 
   .delay(0.4).delayt(0.65).delayfb(wMod(0.5))
   .room(0.4)
   .gain("<0 0 0.55 0 0 0.55 0 0 0.55 0 0 0 0.55 0.55 0.55 0>")
 
-) 
+)
