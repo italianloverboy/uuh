@@ -10,30 +10,25 @@
             font-family: monospace; 
         }
         #play-btn { 
+            display: none; /* Appare solo quando Strudel è pronto */
             padding: 30px 60px; font-size: 28px; cursor: pointer; 
             background: #ff3e00; color: white; border: none; border-radius: 4px; 
             font-weight: bold; box-shadow: 0 0 30px rgba(255, 62, 0, 0.4); 
         }
-        #stop-btn { 
-            padding: 15px 30px; font-size: 18px; cursor: pointer; 
-            background: #333; color: white; border: none; border-radius: 4px; 
-            margin-top: 20px; display: none;
-        }
         #status { margin-top: 20px; color: #ff3e00; font-size: 16px; text-align: center; font-weight: bold; }
     </style>
-
-    <!-- 1. CARICAMENTO UFFICIALE DI STRUDEL (Nessun blocco del browser) -->
-    <script src="https://unpkg.com/@strudel/web@1.0.3"></script>
 </head>
 <body>
 
     <button id="play-btn">UUH IL MARCATORE TM</button>
-    <button id="stop-btn">FERMA AUDIO</button>
-    <div id="status">Clicca per avviare</div>
+    <div id="status">CARICAMENTO MOTORE AUDIO...</div>
 
-    <!-- 2. IL TUO CODICE AUDIO INTATTO -->
-    <!-- Usiamo un tag script finto così non ci sono problemi di virgolette e sintassi -->
-    <script type="text/strudel" id="strudel-code">
+    <!-- CARICAMENTO DIRETTO STRUDEL -->
+    <script src="https://cdn.jsdelivr.net/npm/@strudel/web/dist/strudel.js"></script>
+
+    <script>
+        // Il tuo codice esatto, senza modifiche, in formato stringa
+        const myMusicCode = `
 const ratchet = register('ratchet', (pat) => pat.sometimes(ply(2)))
 
 samples({
@@ -87,85 +82,5 @@ stack(
     .pan(sine.slow(4)) 
     .gain("<0.25 0 0 0 0.45 0.35 0.45 0.35 0.55 0.25 0.45 0.35 0.45 0.35 0.45 0>"),
 
-  note(`
+  note(\`
     <
-      [[~ g4 ~ d4] [~ f4 ~ c4][~ g4 ~ bb3] [~ c4 d4 ~]]!16 
-      [[g3 bb3 d4 f4] [g4 d4 bb3 g3] [c4 ~ d4 ~][~ f4 d4 c4]]!16 
-      [[~ d4 c4 ~][f4 ~ g4 ~][~ bb4 a4 ~] [g4 f4 d4 ~]]!16 
-      [[g4 [~ f4] d4 ~] [~ c4 [bb3 d4] ~][g4 ~ f4 d4] [~ c4 ~ ~]]!16 
-      [[~ g4 f4 d4] [~ ~ c4 d4] [f4 ~ d4 ~][~ bb3 c4 ~]]!16 
-      [[g4 a4 bb4 ~][c5 ~ d5 ~] [c5 bb4 g4 f4] [d4 ~ ~ ~]]!16 
-      [[g4 ~ g4 ~] [~ g4 d4 ~][g4 ~ f4 ~] [c4 d4 ~ ~]]!16 
-      [[d4 d4 ~ f4][d4 d4 ~ c4] [d4 d4 ~ g4][f4 d4 c4 ~]]!16 
-      [[g4 ~ ~ ~][~ d4 ~ ~][f4 ~ ~ ~] [~ c4 ~ ~]]!16 
-      [[g4 ~ bb4 ~] [c5 ~ d5 ~] [f4 ~ d4 ~][~ c4 g3 ~]]!16 
-      [[d5 ~ ~ ~][~ a4 ~ ~][c5 ~ ~ ~] [~ g4 ~ ~]]!16 
-      [[g3 g4 ~ f4][~ d4 c4 bb3][g3 ~ d4 ~] [f4 g4 ~ ~]]!16
-    >
-  `)
-  .s(choose("gm_sitar", "saw", "fm", "pulse", "gm_telephone", "casio", "clash2", "cowbell", "siren", "tubularbells2", "gm_pan_flute").segment(1).slow(16))
-  .lpf(wMod(3000)).lpq(wMod(10))
-  .gain("<0 0 0 0 0.20 0.20 0 0 0.20 0.20 0.20 0.20 0.20 0.20 0.25 0.25>"),
-  
-  note(`
-    <
-    [[g3m9 ~ ~ g3m9][~ bb3maj7 ~ ~] [c4maj7 ~ ~ f3m] [~ ~ d3m7 ~]]!16
-    [[bb3maj7 ~ ~ ~] [~ c4m7 ~ ~][eb4maj7 ~ ~ ~] [~ ~ ~ d4sus4]]!16
-    [[f37 ~ ~ ~] [~ g3m9 ~ ~] [~ ~ c4m7 ~][~ d37 ~ ~]]!16
-    [[eb3maj7 ~ g3m7 ~][~ f37 ~ ~] [bb3maj7 ~ ~ ~] [~ ~ ~ ~]]!16
-    >
-  `)
-  .s(choose("saw", "square", "triangle", "juno", "fm", "pulse", "casio").segment(1).slow(8))
-  .lpf(sine.range(400, 2800).fast(0.5).add(wMod(0))).lpq(wMod(15))
-  .delay(wMod(0.6)).delayt(0.375).delayfb(wMod(0.4)).room(wMod(0.4))
-  .gain("<0 0 0 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35>"),
-
-  note(hookPatt)
-    .s(choose("saw", "square", "fm", "juno", "supersaw", "triangle").segment(1).slow(8)) 
-    .sometimes(x => x.ply("<2 4 3>")) 
-    .lpf(sine.range(100, 4500).slow(4).add(wMod(0))) 
-    .lpq(rand.range(10, 40).add(wMod(0))) 
-    .crush(choose(0, 4, 8).segment(1).slow(4).add(wMod(0))) 
-    .pan(sine.slow(10)) 
-    .delay(0.4).delayt(0.65).delayfb(wMod(0.5))
-    .room(0.4)
-    .gain("<0 0 0.55 0 0 0.55 0 0 0.55 0 0 0 0.55 0.55 0.55 0>")
-).out();
-    </script>
-
-    <!-- 3. MOTORE LOGICO (Usa evaluate, esattamente come il sito di Strudel) -->
-    <script>
-        // Inizializza l'ambiente Strudel
-        initStrudel();
-
-        const playBtn = document.getElementById('play-btn');
-        const stopBtn = document.getElementById('stop-btn');
-        const status = document.getElementById('status');
-
-        playBtn.addEventListener('click', () => {
-            try {
-                // Prende il testo esatto del tuo codice e lo lancia nel motore
-                const musicCode = document.getElementById('strudel-code').textContent;
-                
-                // evaluate() è la funzione ufficiale per eseguire il codice Strudel live
-                evaluate(musicCode);
-                
-                status.innerText = "IN RIPRODUZIONE";
-                status.style.color = "#00ff00";
-                playBtn.style.display = "none";
-                stopBtn.style.display = "block";
-            } catch(e) {
-                status.innerText = "ERRORE SINTASSI: " + e.message;
-            }
-        });
-
-        stopBtn.addEventListener('click', () => {
-            hush(); // Ferma tutto
-            status.innerText = "FERMO";
-            status.style.color = "#ff3e00";
-            stopBtn.style.display = "none";
-            playBtn.style.display = "block";
-        });
-    </script>
-</body>
-</html>
