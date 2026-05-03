@@ -4,51 +4,42 @@
     <meta charset="UTF-8">
     <title>UUH IL MARCATORE TM</title>
     <style>
-        body { background: #000; color: #fff; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: 'Courier New', monospace; }
+        body { background: #000; color: #fff; margin: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; font-family: monospace; }
         #play-btn { 
             padding: 30px 60px; font-size: 28px; cursor: pointer; 
             background: #ff3e00; color: white; border: none; border-radius: 4px; 
             font-weight: bold; box-shadow: 0 0 30px rgba(255, 62, 0, 0.4); 
+            display: none; /* Nascosto finché non carica */
         }
-        #status { margin-top: 20px; color: #ff3e00; font-size: 18px; font-weight: bold; }
-        #log { margin-top: 10px; color: #555; font-size: 12px; text-align: center; }
+        #status { color: #ff3e00; font-size: 16px; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <button id="play-btn">UUH IL MARCATORE TM</button>
-    <div id="status">CARICAMENTO MOTORE...</div>
-    <div id="log">Se leggi questo, il browser sta caricando i file...</div>
+    <div id="status">CARICAMENTO MOTORE AUDIO...</div>
 
     <script type="module">
-        // Metodo di importazione più robusto
-        import { strudel } from 'https://cdn.skypack.dev/@strudel/web';
+        // Usiamo un caricatore più affidabile e veloce
+        import { strudel } from 'https://esm.sh/@strudel/web@0.6.1?bundle';
 
         const btn = document.getElementById('play-btn');
         const status = document.getElementById('status');
-        const log = document.getElementById('log');
 
-        // Segnale che la libreria è pronta
-        log.innerText = "Libreria Strudel caricata con successo.";
-        status.innerText = "PRONTO.";
-        status.style.color = "#00ff00";
+        // Appena la libreria è caricata, mostriamo il tastone
+        status.innerText = "MOTORE PRONTO.";
+        btn.style.display = "block";
 
         btn.onclick = async () => {
-            status.innerText = "AVVIO AUDIO...";
-            status.style.color = "#ff3e00";
+            status.innerText = "RIPRODUZIONE IN CORSO...";
             btn.style.display = "none";
 
             try {
+                // Il tuo codice esatto, con i simboli corretti per il web
                 const musicCode = `
-                    // REGISTRAZIONE RATCHET
                     const ratchet = register('ratchet', (pat) => pat.sometimes(ply(2)));
 
-                    // CARICAMENTO SAMPLES
                     samples({
                       'myvox':[
                         '0.wav', '1.wav', '2.wav', '3.wav', '4.wav', 
-                        '5.wav', '6.wav', '7.wav', '8.wav', '9.wav', '10.wav', '11.wav', '12.wav'
-                      ]
-                    }, 'https://cdn.jsdelivr.net/gh/italianloverboy/uuh@main/samples/');
-
-                    s
+                        '5.wav', '6.wav', '7.wav', '8.wav', '9.wav', '10.wav', '11.wav',
