@@ -1,9 +1,5 @@
 
-https://tinyurl.com/UuUuHillMarcatoreTM
-
-
-
-// UUH! IlMarcatoreTM
+// UUH! IlMarcatoreTM 20:13
 //
 //
 
@@ -29,11 +25,11 @@ const chordRhythm = "<[~ x ~ ~] [~ ~ x ~][~ x ~ x][~ ~ ~ x]>";
  
 
  
-const modWeak   = rand.range(0.01, 0.08);  
-const modMid    = rand.range(0.1,  0.25);  
-const modStrong = rand.range(0.3,  0.6);   
+const modWeak   = rand.range(0.01, 0.1);  
+const modMid    = rand.range(0.1,  0.7);  
+const modStrong = rand.range(0.7,  1.5);   
  
-const modActive = "<0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1>";
+const modActive = "<0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1>";
 
  
 const wMod = (base) => choose(modWeak, modMid, modStrong).segment(1).slow(10).mul(modActive).add(base);
@@ -44,22 +40,22 @@ stack(
   // 1. Kick:  
   
   s("[bd*4, ~[~ mt] ~ [~ lt]]").bank("RolandTR909").room(wMod(0.2))
-    .gain("<0 0 1 1 1 1 1 0 1 1 1 1 1 1 1 0>"), 
+    .gain("<0 0 0 0 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1>"), 
   
   // 2. HI-HATS:  
   
   s("[~ oh]*4").bank("RolandTR909").decay(wMod(0.1))
-    .gain("<1 1 0 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6>"),
+    .gain("<0 0 0.3 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0 0 0 0 0 0 0.3 0.6 0.6 0.6 0.4 0.6 0.4 0.6 0.4 0.6 0.4 0.6 0 0 0 0>"),
 
   // --- CLAP GESU
   stack(
     s("~ cp ~ cp").bank("RolandTR909").room(wMod(0.3)),  
     s("[~ rd]*4").bank("RolandTR909").decay(wMod(0.3))   
-  ).gain("<0.25 0 0 0 0 0 0 0 0 0 0 0 0.25 0.35 0.25 0.25>"),
+  ).gain("<0.25 0 0 0 0 0 0 0 0 0 0 0 0.25 0.35 0.25 0.35>"),
   
   // 3. BASS:
   note(bPatt).s("saw").lpq(45).decay(wMod(0.32)).sustain(2)  
-    .gain("<0.6 0 0.6 0 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6 0.6>"),
+    .gain("<0.7 0 0.7 0 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0 0.7 0 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0.7 0 0 0 0>"),
   
   // 4. SUB-SYNTH
     note(sPatt).s("saw").lpf(220).lpq(10).adsr(0.4, 1.3, wMod(0.8), 1.3) 
@@ -68,7 +64,7 @@ stack(
   // 5. VOCE PRINCIPALE
   s("myvox").n(choose(0, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,0, 10, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12))
     .speed(choose(0.6, 0.55, 0.65, 0.5, 0.75, 0.8, 1.3, 1.4))
-    .crush(choose(5.5, 9, 8, 6, 8, 9, 8)) 
+    .crush(choose(5.5, 9, 8, 6, 8, 9, 8, 5)) 
     .pan(rand).gain(0.4), 
 
   // 6. CONTROCORO
@@ -94,20 +90,33 @@ stack(
       [[g3 g4 ~ f4] [~ d4 c4 bb3][g3 ~ d4 ~] [f4 g4 ~ ~]]!16
     >
   `)
-  .s("<gm_sitar!16 saw!16 fm!16 pulse!16 gm_telephone!16 casio!16 clash2!16 cowbell!16 siren!16 tubularbells2!16 gm_pan_flute!16>")
-  .gain("<0 0 0 0 0.25 0.25 0 0 0.25 0.25 0.25 0.25 0.25 0.25 0.25 0.25>"),
+ .s(choose("gm_sitar", "saw", "fm", "pulse", "gm_telephone", "casio", "clash2", "cowbell", "siren", "tubularbells2", "gm_pan_flute").segment(1).slow(16))
+.gain("<0 0 0 0 0.20 0.20 0 0 0.20 0.20 0.20 0.20 0.20 0.20 0.25 0.25>"),
   
-  // 8.   CHORD STAB -  
-  note("g4m9").struct(chordRhythm)
-    .s(choose("square", "saw", "triangle").slow(16)) 
-    .lpf(sine.range(400, 2800).fast(0.5)).lpq(15) 
-    .delay(wMod(0.6)).delayt(0.375).delayfb(wMod(0.4)).room(wMod(0.4))  
-    .gain("<0 0 0 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35>"),
+// 8. CHORD STAB (Complesso, varia ogni 16 cicli, strumento fisso ogni 8)
+note(`
+    <
+    [[g3m9 ~ ~ g3m9] [~ bb3maj7 ~ ~] [c4maj7 ~ ~ f3m] [~ ~ d3m7 ~]]!16
+    [[bb3maj7 ~ ~ ~] [~ c4m7 ~ ~] [eb4maj7 ~ ~ ~] [~ ~ ~ d4sus4]]!16
+    [[f37 ~ ~ ~] [~ g3m9 ~ ~] [~ ~ c4m7 ~] [~ d37 ~ ~]]!16
+    [[eb3maj7 ~ g3m7 ~] [~ f37 ~ ~] [bb3maj7 ~ ~ ~] [~ ~ ~ ~]]!16
+    >
+`)
+.s(choose("saw", "square", "triangle", "juno", "fm", "pulse", "casio").segment(1).slow(8))
+.lpf(sine.range(400, 2800).fast(0.5)).lpq(15)
+.delay(wMod(0.6)).delayt(0.375).delayfb(wMod(0.4)).room(wMod(0.4))
+.gain("<0 0 0 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35 0.35>"),
 
-  // 9. EARWORM  
-  note(hookPatt)
-    .s(choose("saw", "square", "fm", "juno").slow(16)) 
-    .lpf(sine.range(200, 1800).slow(4)) 
-    .delay(0.4).delayt(0.65).delayfb(wMod(0.5))  
-    .gain("<0 0 0.55 0 0 0.55 0 0 0.55 0 0 0 0.55 0.55 0.55 0>") 
-)
+// 9. EARWORM (Potenziato: più range, effetti dinamici, strumento fisso ogni 8)
+note(hookPatt)
+  .s(choose("saw", "square", "fm", "juno", "supersaw", "triangle").segment(1).slow(8)) 
+  .sometimes(x => x.ply("<2 4 3>")) // Variazione ritmica casuale
+  .lpf(sine.range(100, 4500).slow(4)) // Range filtro molto più ampio
+  .lpq(rand.range(10, 40)) // Risonanza variabile
+  .crush(choose(0, 4, 8).segment(1).slow(4)) // Grana bitcrush che varia
+  .pan(sine.slow(10)) // Movimento stereo lento
+  .delay(0.4).delayt(0.65).delayfb(wMod(0.5))
+  .room(0.4)
+  .gain("<0 0 0.55 0 0 0.55 0 0 0.55 0 0 0 0.55 0.55 0.55 0>")
+
+) 
